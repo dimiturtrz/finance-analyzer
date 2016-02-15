@@ -1,0 +1,71 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "user@gmail.com",
+      "username": "test",
+      "password_hash": "hashed password here",
+      "password_salt": "salt string here",
+      "balance": "0.00",
+      "admin": false
+    },
+    {
+      "id": 2,
+      "email": "admin@gmail.com",
+      "username": "admin",
+      "password_hash": "hashed password here",
+      "password_salt": "salt string here",
+      "admin": true
+    },
+    {
+      "id": 3,
+      "email": "test@gmail.com",
+      "username": "test",
+      "password_hash": "hashed password here",
+      "password_salt": "salt string here",
+      "admin": false
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "positive": true,
+      "value": "5.0",
+      "date": "15 February 2016",
+      "description": "Found 5 bucks on the street.",
+      "important": true,
+      "user_id": 1
+    },
+    {
+      "id": 2,
+      "positive": false,
+      "value": "22.30",
+      "date": "14 February 2016",
+      "description": "Bought cheese.",
+      "important": false,
+      "user_id": 1
+    }
+  ],
+  "challenges": [
+    {
+      "id": 1,
+      "declaration": "Spend less than 100 bucks a month!",
+      "user_id": 1
+    }
+  ],
+  "challenge_parameters": [
+    {
+      "id": 1,
+      "less_than": true,
+      "value": "100",
+      "challenge_id": 1
+    }
+  ],
+  "friendships": [
+    {
+      "id": 1,
+      "user_id_1": 1,
+      "user_id_2": 3
+    }
+  ]
+}
