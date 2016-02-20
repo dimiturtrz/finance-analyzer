@@ -439,5 +439,5 @@
         fadeInSpeed: 600,
         fadeOutSpeed: 300
     };
-    $('#sample').ticker();
+    // $('#sample').ticker();
 })(jQuery);
