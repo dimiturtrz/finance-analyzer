@@ -117,7 +117,7 @@
 
                 <div class="page-content">
                     <button id="add-transaction-button" class="btn btn-primary" style="margin-bottom: 20px;">Add transaction</button>
-                    <div id="add-transaction-form-panel" class="panel panel-blue" style="width: 50%;background:#fff;">
+                    <div id="transaction-form-panel" class="panel panel-blue" style="width: 50%;background:#fff;">
                         <div class="panel-heading">
                             Add Transaction</div>
                         <div class="panel-body pan">
@@ -155,7 +155,6 @@
                                             <label for="transaction-important-input" class="control-label">
                                                 Important?</label>
                                                 <input id="transaction-important-input" type="checkbox" placeholder="" class="form-control">
-                                                <!-- add jquery calendar plugin -->
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +162,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <button id="transaction-submit" class="btn btn-primary">Add</button>
-                                            <span id="add-transaction-close" style="float: right; cursor: pointer;">Close</span>
+                                            <span id="transaction-panel-close" style="float: right; cursor: pointer;">Close</span>
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +181,7 @@
                                 <th>Description</th>
                                 <th>Date</th>
                                 <th>Important?</th>
-                                <!-- <th>Edit</th> -->
+                                <th>Edit</th>
                             </tr>
                             </thead>
                             <tbody></tbody>

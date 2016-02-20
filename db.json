@@ -28,41 +28,32 @@
   ],
   "transactions": [
     {
-      "id": 1,
+      "description": "Found 5 bucks on the street.",
       "value": 5,
       "date": "15 February 2016",
-      "description": "Found 5 bucks on the street.",
-      "important": true,
-      "user_id": 1
+      "important": "on",
+      "id": 1
     },
     {
-      "id": 2,
+      "description": "Bought cheese.",
       "value": -22.3,
       "date": "14 February 2016",
-      "description": "Bought cheese.",
       "important": false,
-      "user_id": 1
+      "id": 2
     },
     {
-      "description": "New Transaction",
-      "value": 5,
-      "date": "02/20/2016",
-      "important": "on",
+      "description": "New Transaction Editted",
+      "value": 50,
+      "date": "02/18/2016",
+      "important": false,
       "id": 3
     },
     {
-      "description": "asdf",
-      "value": -34.1,
-      "date": "02/20/2016",
-      "important": "on",
+      "description": "Newly added transaction",
+      "value": -100,
+      "date": "02/05/2016",
+      "important": true,
       "id": 4
-    },
-    {
-      "description": "Lost 5 bucks",
-      "value": -5,
-      "date": "02/20/2016",
-      "important": "on",
-      "id": 5
     }
   ],
   "challenges": [
