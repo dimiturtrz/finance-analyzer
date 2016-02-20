@@ -83,6 +83,8 @@ $(document).ready(function() {
                 .append($("<td></td>").text(transaction.important))
                 .append($("<td></td>")
                                     .append($("<button class=\"btn btn-primary transaction-edit-btn\">Edit</button>")))
+                .append($("<td></td>")
+                                    .append($("<button class=\"btn btn-danger transaction-delete-btn\">Delete</button>").attr("data-id", transaction.id)))
         );
     }
 
@@ -93,7 +95,6 @@ $(document).ready(function() {
                 addTransactionToTable(obj);
             });
         });
-        
     }
 
     displayTransactions();
@@ -139,4 +140,18 @@ $(document).ready(function() {
     $("tbody").on('click', '.transaction-edit-btn', function() {
         editTransaction($(this).closest('tr').children('td').first().text())
     })
+
+    function deleteTransaction(id) {
+        return $.ajax(ENDPOINT + "/" + id, {
+            method: "DELETE"
+        });
+    }
+
+    $("tbody").on('click', '.transaction-delete-btn', function() {
+        if(window.confirm("Are you sure? This action cannot be undone!")) {
+            deleteTransaction($(this).attr("data-id")).then(function(response) {
+                displayTransactions();
+            });
+        }
+    });
 });

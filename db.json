@@ -47,13 +47,6 @@
       "date": "02/18/2016",
       "important": false,
       "id": 3
-    },
-    {
-      "description": "Newly added transaction",
-      "value": -100,
-      "date": "02/05/2016",
-      "important": true,
-      "id": 4
     }
   ],
   "challenges": [
