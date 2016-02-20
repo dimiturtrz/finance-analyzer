@@ -29,8 +29,7 @@
   "transactions": [
     {
       "id": 1,
-      "positive": true,
-      "value": "5.0",
+      "value": 5,
       "date": "15 February 2016",
       "description": "Found 5 bucks on the street.",
       "important": true,
@@ -38,12 +37,32 @@
     },
     {
       "id": 2,
-      "positive": false,
-      "value": "22.30",
+      "value": -22.3,
       "date": "14 February 2016",
       "description": "Bought cheese.",
       "important": false,
       "user_id": 1
+    },
+    {
+      "description": "New Transaction",
+      "value": 5,
+      "date": "02/20/2016",
+      "important": "on",
+      "id": 3
+    },
+    {
+      "description": "asdf",
+      "value": -34.1,
+      "date": "02/20/2016",
+      "important": "on",
+      "id": 4
+    },
+    {
+      "description": "Lost 5 bucks",
+      "value": -5,
+      "date": "02/20/2016",
+      "important": "on",
+      "id": 5
     }
   ],
   "challenges": [

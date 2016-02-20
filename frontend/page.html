@@ -34,7 +34,7 @@
             <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                <a id="logo" href="index.html" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">FinanceAnalyzer</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
+                <a id="logo" href="page.html" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">FinanceAnalyzer</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><span class="hidden-xs">Robert John</span>&nbsp;<span class="caret"></span></a>
@@ -116,9 +116,81 @@
                 <!--END TITLE & BREADCRUMB PAGE-->
 
                 <div class="page-content">
-                    <p>Transactions</p>
+                    <button id="add-transaction-button" class="btn btn-primary" style="margin-bottom: 20px;">Add transaction</button>
+                    <div id="add-transaction-form-panel" class="panel panel-blue" style="width: 50%;background:#fff;">
+                        <div class="panel-heading">
+                            Add Transaction</div>
+                        <div class="panel-body pan">
+                            <div class="form-body pal">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="transaction-description-input" class="control-label">
+                                                Description</label>
+                                                <input id="transaction-description-input" type="text" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="transaction-value-input" class="control-label">
+                                                Value</label>
+                                                <input id="transaction-value-input" type="text" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="transaction-date-input" class="control-label">
+                                                Date</label>
+                                                <input id="transaction-date-input" type="text" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="transaction-important-input" class="control-label">
+                                                Important?</label>
+                                                <input id="transaction-important-input" type="checkbox" placeholder="" class="form-control">
+                                                <!-- add jquery calendar plugin -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button id="transaction-submit" class="btn btn-primary">Add</button>
+                                            <span id="add-transaction-close" style="float: right; cursor: pointer;">Close</span>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">Transactions</div>
+                    <div class="panel-body">
+                        <table id="transactions-table" class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Value</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Important?</th>
+                                <!-- <th>Edit</th> -->
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                </div>
                 </div>
                 <!-- END TRANSACTIONS PAGE -->
 
@@ -227,5 +299,6 @@
     </script> -->
 
     <script src="script/finance-analyzer.js"></script>
+    <script src="script/transactions.js"></script>
 </body>
 </html>
