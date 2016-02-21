@@ -9,20 +9,34 @@ $(document).ready(function() {
         target.show();
     }
 
-    showPanel("dashboard-panel");
-
     var sidemenu_items = $("ul#side-menu li");
 
-    sidemenu_items.on('click', function() {
-        var clicked = $(this).find("span.menu-title").text();
-        var panelName = clicked.toLowerCase() + "-panel";
-        showPanel(panelName);
+    function capitalize(string) {
+        return string[0].toUpperCase() + string.slice(1);
+    }
+
+    function switchPanel(hash_url_value) {
+        showPanel(hash_url_value + "-panel");
 
         sidemenu_items.removeClass("active");
-        $(this).addClass("active");
+        sidemenu_items.filter(function() {
+            return $(this).find('span.menu-title').text() === capitalize(hash_url_value);
+        }).addClass("active");
+    }
+
+    function extractHashFromURL() {
+        return window.location.hash.replace('#', '');
+    }
+
+    $(window).on('hashchange', function() {
+        switchPanel(extractHashFromURL());
     });
 
-    $("ul#side-menu li").on('hover', function() {
-        $(this).css('cursor', 'pointer');
-    });
+    (function() {
+        if(window.location.hash) {
+            switchPanel(extractHashFromURL());
+        } else {
+            showPanel("dashboard-panel");
+        }
+    })();
 });
