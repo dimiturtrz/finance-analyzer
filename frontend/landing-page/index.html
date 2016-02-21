@@ -405,23 +405,18 @@
                             
                             <form role="form" action="" method="post" class="registration-form">
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-register-username">Username</label>
-                                    <input type="text" name="form-first-name" placeholder="Username..." class="form-first-name form-control" id="form-register-username">
+                                    <label class="sr-only" for="form-login-username">Username</label>
+                                    <input type="text" name="form-first-name" placeholder="Username..." class="form-first-name form-control" id="form-login-username">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-last-name">Last name</label>
-                                    <input type="text" name="form-last-name" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+                                    <label class="sr-only" for="form-login-email">Email</label>
+                                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-login-email">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-email">Email</label>
-                                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
+                                    <label class="sr-only" for="form-login-password">Password</label>
+                                    <input type="password" name="form-password" placeholder="Password..." class="form-first-name form-control" id="form-login-password">
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="form-about-yourself">About yourself</label>
-                                    <textarea name="form-about-yourself" placeholder="About yourself..." 
-                                                class="form-about-yourself form-control" id="form-about-yourself"></textarea>
-                                </div>
-                                <button type="submit" class="btn">Sign me up!</button>
+                                <button type="submit" class="btn">Log me in!</button>
                             </form>
                             
                         </div>
@@ -480,6 +475,29 @@
                 window.location.replace("file:///home/stamaniorec/repos/finance-analyzer/frontend/page.html#dashboard");
             });
         }
+
+        // Log in below
+
+        var modal_login = $("#modal-login");
+        var login_submit = modal_login.find('button[type="submit"]');
+        login_submit.on('click', function(e) {
+            var user = {
+                username: $("#form-login-username").val(),
+                email: $("#form-login-email").val(),
+                password: $("#form-login-password").val()
+            };
+            logInUser(user);
+            e.preventDefault();
+        });
+
+        var ENDPOINT = "http://localhost:3000/users/authenticate"; // to be implemented
+
+        function logInUser(user) {
+            if(true) { // if successfully authenticated
+                window.location.replace("file:///home/stamaniorec/repos/finance-analyzer/frontend/page.html#dashboard");
+            }
+        }
+
 
         </script>
 
