@@ -53,7 +53,19 @@
     {
       "id": 1,
       "declaration": "Spend less than 100 bucks a month!",
-      "user_id": 1
+      "user_id": 1,
+      "since": "31/02/2016",
+      "deadline": "31/03/2016",
+      "status": "in-progress",
+      "progress": 123.43
+    },
+    {
+      "declaration": "New challenge",
+      "since": "02/01/2016",
+      "deadline": "02/26/2016",
+      "status": "in-progress",
+      "progress": 0,
+      "id": 2
     }
   ],
   "challenge_parameters": [

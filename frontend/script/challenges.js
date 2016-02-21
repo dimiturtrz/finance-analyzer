@@ -34,18 +34,30 @@ $(document).ready(function() {
     var ENDPOINT = "http://localhost:3000/challenges";
 
     var declaration_input = $("#challenge-declaration-input");
+    var since_input = $("#challenge-since-input");
+    var deadline_input = $("#challenge-deadline-input");
+
+    since_input.datepicker();
+    deadline_input.datepicker();
 
     function buildChallengeFromInputs() {
         return {
-            declaration: declaration_input.val()
+            declaration: declaration_input.val(),
+            since: since_input.val(),
+            deadline: deadline_input.val()
         };
     }
 
     function create_challenge() {
+        // temp code which has to run on the server
+        var task = buildChallengeFromInputs();
+        task.status = "in-progress";
+        task.progress = 0.0;
+
         $.ajax(ENDPOINT, {
             method: "POST",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(buildChallengeFromInputs()),
+            data: JSON.stringify(task),
             dataType: "json"
         }).then(function(response) {
             displayChallenges();
@@ -70,6 +82,10 @@ $(document).ready(function() {
             $("<tr></tr>")
                 .append($("<td></td>").text(challenge.id))
                 .append($("<td></td>").text(challenge.declaration))
+                .append($("<td></td>").text(challenge.since))
+                .append($("<td></td>").text(challenge.deadline))
+                .append($("<td></td>").text(challenge.status))
+                .append($("<td></td>").text(challenge.progress))
                 .append($("<td></td>")
                                     .append($("<button class=\"btn btn-primary challenge-edit-btn\">Edit</button>")))
                 .append($("<td></td>")
@@ -113,6 +129,8 @@ $(document).ready(function() {
 
         readChallenge(id).then(function(response) {
             declaration_input.val(response.declaration);
+            since_input.val(response.since);
+            deadline_input.val(response.deadline);
         });
     }
 
