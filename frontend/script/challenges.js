@@ -9,7 +9,14 @@ $(document).ready(function() {
     challenge_panel_close.on('click', function() {
         add_challenge_button.show();
         challenge_panel.hide();
+        clearInputs();
     });
+
+    function clearInputs() {
+        declaration_input.val("");
+        since_input.val("");
+        deadline_input.val("");
+    }
     
     challenge_panel.hide();
 

@@ -9,7 +9,15 @@ $(document).ready(function() {
     transaction_panel_close.on('click', function() {
         add_transaction_button.show();
         transaction_panel.hide();
+        clearInputs();
     });
+
+    function clearInputs() {
+        description_input.val("");
+        value_input.val("");
+        date_input.val("");
+        important_input.val("");
+    }
     
     transaction_panel.hide();
 
