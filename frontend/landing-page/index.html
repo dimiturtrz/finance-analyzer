@@ -368,21 +368,16 @@
                             
                             <form role="form" action="" method="post" class="registration-form">
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-first-name">First name</label>
-                                    <input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+                                    <label class="sr-only" for="form-register-username">Username</label>
+                                    <input type="text" name="form-first-name" placeholder="Username..." class="form-first-name form-control" id="form-register-username">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-last-name">Last name</label>
-                                    <input type="text" name="form-last-name" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+                                    <label class="sr-only" for="form-register-email">Email</label>
+                                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-register-email">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-email">Email</label>
-                                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="form-about-yourself">About yourself</label>
-                                    <textarea name="form-about-yourself" placeholder="About yourself..." 
-                                                class="form-about-yourself form-control" id="form-about-yourself"></textarea>
+                                    <label class="sr-only" for="form-register-password">Password</label>
+                                    <input type="password" name="form-password" placeholder="Password..." class="form-first-name form-control" id="form-register-password">
                                 </div>
                                 <button type="submit" class="btn">Sign me up!</button>
                             </form>
@@ -410,8 +405,8 @@
                             
                             <form role="form" action="" method="post" class="registration-form">
                                 <div class="form-group">
-                                    <label class="sr-only" for="form-first-name">First name</label>
-                                    <input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+                                    <label class="sr-only" for="form-register-username">Username</label>
+                                    <input type="text" name="form-first-name" placeholder="Username..." class="form-first-name form-control" id="form-register-username">
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="form-last-name">Last name</label>
@@ -459,6 +454,34 @@
         <!-- Modal JS -->
         <script src="js/jquery.backstretch.min.js"></script>
         <script src="js/modal.js"></script>
+
+        <script type="text/javascript">
+        var modal_register = $("#modal-register");
+        var register_submit = modal_register.find('button[type="submit"]');
+        register_submit.on('click', function(e) {
+            var user = {
+                username: $("#form-register-username").val(),
+                email: $("#form-register-email").val(),
+                password: $("#form-register-password").val()
+            };
+            registerUser(user);
+            e.preventDefault();
+        });
+
+        var ENDPOINT = "http://localhost:3000/users";
+
+        function registerUser(user) {
+            $.ajax(ENDPOINT, {
+                method: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(user),
+                dataType: "json"
+            }).then(function(response) {
+                window.location.replace("file:///home/stamaniorec/repos/finance-analyzer/frontend/page.html#dashboard");
+            });
+        }
+
+        </script>
 
     </body> 
         
