@@ -107,9 +107,6 @@ $(document).ready(function() {
     }
 
     function updateTransaction(id) {
-        console.log(buildTransactionFromInputs());
-        console.log(important_input.val());
-        console.log(important_input);
         return $.ajax(ENDPOINT + "/" + id, {
             method: "PUT",
             contentType: "application/json; charset=utf-8",

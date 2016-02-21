@@ -74,7 +74,7 @@
                     </li>
                     <li><a href="#users"><i class="fa fa-file-o fa-fw">
                         <div class="icon-bg bg-violet"></div>
-                    </i><span class="menu-title">Users</span></a>
+                    </i><span class="menu-title">Users</span></a></li>
                 </ul>
             </div>
         </nav>
@@ -208,7 +208,74 @@
                 <!--END TITLE & BREADCRUMB PAGE-->
 
                 <div class="page-content">
-                    <p>Challenges</p>
+                    <button id="add-challenge-button" class="btn btn-primary" style="margin-bottom: 20px;">Add challenge</button>
+                    <div id="challenge-form-panel" class="panel panel-blue" style="width: 50%;background:#fff;">
+                        <div class="panel-heading">
+                            Add Challenge</div>
+                        <div class="panel-body pan">
+                            <div class="form-body pal">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="challenge-declaration-input" class="control-label">
+                                                Declaration</label>
+                                                <input id="challenge-declaration-input" type="text" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="challenge-value-input" class="control-label">
+                                                Value</label>
+                                                <input id="challenge-value-input" type="text" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="challenge-date-input" class="control-label">
+                                                Date</label>
+                                                <input id="challenge-date-input" type="text" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="challenge-important-input" class="control-label">
+                                                Important?</label>
+                                                <input id="challenge-important-input" type="checkbox" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button id="challenge-submit" class="btn btn-primary">Add</button>
+                                            <span id="challenge-panel-close" style="float: right; cursor: pointer;">Close</span>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="panel panel-yellow">
+                    <div class="panel-heading">Challenges</div>
+                    <div class="panel-body">
+                        <table id="challenges-table" class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Declaration</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
                 </div>
 
                 </div>
@@ -300,5 +367,6 @@
 
     <script src="script/finance-analyzer.js"></script>
     <script src="script/transactions.js"></script>
+    <script src="script/challenges.js"></script>
 </body>
 </html>
