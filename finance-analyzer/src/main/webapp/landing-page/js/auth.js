@@ -22,7 +22,7 @@ $(document).ready(function() {
             data: JSON.stringify(user),
             dataType: "json"
         }).then(function(response) {
-            window.location.replace("file:///home/stamaniorec/repos/finance-analyzer/frontend/page.html#dashboard");
+            window.location.replace(LOGIN_REDIRECT);
         });
     }
 
@@ -41,10 +41,11 @@ $(document).ready(function() {
     });
 
     var ENDPOINT = "http://localhost:3000/users/authenticate"; // to be implemented
+    var LOGIN_REDIRECT = "http://localhost:8080/finance-analyzer/page.html#dashboard"
 
     function logInUser(user) {
-        if(true) { // if successfully authenticated
-            window.location.replace("file:///home/stamaniorec/repos/finance-analyzer/frontend/page.html#dashboard");
+        if(true) { // TODO if successfully authenticated
+            window.location.replace(LOGIN_REDIRECT);
         }
     }
 });
