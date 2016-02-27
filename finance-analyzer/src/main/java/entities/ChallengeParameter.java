@@ -1,4 +1,4 @@
-package models;
+package entities;
 
 public class ChallengeParameter {
 	private int id;

@@ -1,18 +1,16 @@
-package service;
+package controllers;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
  
-@Path("/hello")
+@Path("/test")
 public class FinanceService {
  
 	@GET
-	@Path("/{param}")
-	public Response getMsg(@PathParam("param") String msg) {
+	public Response getMsg() {
  
-		String output = "Jersey say : " + msg;
+		String output = "Jersey at work";
  
 		return Response.status(200).entity(output).build();
  

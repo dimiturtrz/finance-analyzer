@@ -1,7 +1,4 @@
-package models;
-
-import java.util.HashMap;
-import java.util.Map;
+package entities;
 
 public class Challenge {
 	private int id;
