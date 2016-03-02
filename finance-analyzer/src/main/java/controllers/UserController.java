@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,37 +13,86 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import entities.User;
+import controllers.EntityManagerService;
 
+@XmlRootElement
 @Path("/users")
 public class UserController {
+	
 	@GET
 	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsers() {
-		return Response.status(200).build();
+	public List<User> getUsers() {
+		final EntityManager em = EntityManagerService.createEntityManager();
+		try {
+			final TypedQuery<User> query =
+				em.createNamedQuery(User.QUERY_ALL, User.class);
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMsg(@PathParam("id") int id) {
-		return Response.status(200).build();
+	public User getMsg(@PathParam("id") int id) {
+		final EntityManager em = EntityManagerService.createEntityManager();
+		try {
+			final User result = em.find(User.class, id);
+			if (result == null) {
+				throw new IllegalArgumentException(
+						"No task with id: " + id);
+			}
+			return result;
+		} finally {
+			em.close();
+		}
 	}
 	
 	@POST
+	@Path("")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User createUser(User user) {
-		return new User();
+		final EntityManager em = EntityManagerService.createEntityManager();
+		try {
+			em.getTransaction().begin();
+			em.persist(user);
+			em.getTransaction().commit();
+			
+			return user;
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			em.close();
+		}
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	public void deleteUser(@PathParam("id") long id) {
-		return;
+		final EntityManager em = EntityManagerService.createEntityManager();
+		try {
+			em.getTransaction().begin();
+			final User user = em.find(User.class, id);
+			if (user == null) {
+				throw new IllegalArgumentException(
+						"No task with id: " + id);
+			}
+			em.remove(user);
+			
+			em.getTransaction().commit();
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			em.close();
+		}
 	}
 	
 	@PUT
@@ -47,6 +100,18 @@ public class UserController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User updateUser(@PathParam("id") long id, User user) {
-		return new User();
+		final EntityManager em = EntityManagerService.createEntityManager();
+		try {
+			em.getTransaction().begin();
+			final User result = em.merge(user);
+			em.getTransaction().commit();
+			
+			return result;
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			em.close();
+		}
 	}
 }

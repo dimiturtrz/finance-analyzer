@@ -19,7 +19,7 @@ import entities.ChallengeParameter;
 import controllers.EntityManagerService;
 
 @XmlRootElement
-@Path("/challengeParameters")
+@Path("/challenge-parameters")
 public class ChallengeParameterController {
 	
 	@GET
