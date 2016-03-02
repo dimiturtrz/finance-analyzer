@@ -20,4 +20,61 @@ public class Challenge {
 	private String deadline;
 	private String status;
 	private float progress;
+		
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getUser_id() {
+		return user_id;
+	}
+	
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+	
+	public String getDeclaration() {
+		return declaration;
+	}
+	
+	public void setDeclaration(String declaration) {
+		this.declaration = declaration;
+	}
+	
+	public String getSince() {
+		return since;
+	}
+	
+	public void setSince(String since) {
+		this.since = since;
+	}
+	
+	public String getDeadline() {
+		return deadline;
+	}
+	
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public float getProgress() {
+		return progress;
+	}
+	
+	public void setProgress(float progress) {
+		this.progress = progress;
+	}
+
 }
