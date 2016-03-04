@@ -39,7 +39,7 @@ $(document).ready(function() {
         }
     });
 
-    var ENDPOINT = "http://localhost:3000/transactions";
+    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
 
     var description_input = $("#transaction-description-input");
     var value_input = $("#transaction-value-input");

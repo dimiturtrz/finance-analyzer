@@ -1,5 +1,7 @@
 $(document).ready(function() {
     "use strict";
+    
+    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/users";
 
     var editBtn = $("#edit-btn");
     var updateBtn = $("#update-btn");
@@ -18,7 +20,7 @@ $(document).ready(function() {
     }
 
     function getUser(id) {
-        return $.ajax("http://localhost:3000/users" + "/" + id, {
+        return $.ajax(ENDPOINT + "/" + id, {
             method: "GET",
             dataType: "json"
         });
@@ -98,7 +100,7 @@ $(document).ready(function() {
 
     function updateUser(user) {
         var id = 1; // TODO get it from URL params
-        return $.ajax("http://localhost:3000/users" + "/" + id, {
+        return $.ajax(ENDPOINT + "/" + id, {
             method: "PUT",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(user),

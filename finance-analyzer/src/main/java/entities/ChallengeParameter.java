@@ -1,6 +1,8 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -13,6 +15,7 @@ import javax.persistence.NamedQuery;
 public class ChallengeParameter {
 	public static final String QUERY_ALL = "allChallengeParameters";
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private int challenge_id;
 	private boolean less_than;
