@@ -24,6 +24,8 @@ $(document).ready(function() {
     add_transaction_button.on('click', function() {
         transaction_panel.show();
         add_transaction_button.hide();
+        transaction_panel.find('.panel-heading').text("Add transaction");
+        important_input.parent().removeClass('checked');
     });
 
     transaction_submit_button.on('click', function() {

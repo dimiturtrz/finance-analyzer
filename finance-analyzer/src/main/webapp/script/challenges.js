@@ -23,6 +23,7 @@ $(document).ready(function() {
     add_challenge_button.on('click', function() {
         challenge_panel.show();
         add_challenge_button.hide();
+        challenge_panel.find('.panel-heading').text("Add challenge");
     });
 
     challenge_submit_button.on('click', function() {
