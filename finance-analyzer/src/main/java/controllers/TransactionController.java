@@ -39,7 +39,7 @@ public class TransactionController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Transaction getMsg(@PathParam("id") int id) {
+	public Transaction getTransaction(@PathParam("id") long id) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
 			final Transaction result = em.find(Transaction.class, id);
@@ -102,8 +102,10 @@ public class TransactionController {
 	public Transaction updateTransaction(@PathParam("id") long id, Transaction transaction) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
+			Transaction fromDb = getTransaction(id);
+			transaction.setId((int)id);
 			em.getTransaction().begin();
-			final Transaction result = em.merge(transaction);
+			Transaction result = em.merge(transaction);
 			em.getTransaction().commit();
 			
 			return result;

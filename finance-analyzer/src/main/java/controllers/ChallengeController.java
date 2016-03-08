@@ -39,7 +39,7 @@ public class ChallengeController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Challenge getMsg(@PathParam("id") int id) {
+	public Challenge getChallenge(@PathParam("id") long id) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
 			final Challenge result = em.find(Challenge.class, id);
@@ -102,6 +102,10 @@ public class ChallengeController {
 	public Challenge updateChallenge(@PathParam("id") long id, Challenge challenge) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
+			Challenge fromDb = getChallenge(id);
+			challenge.setStatus(fromDb.getStatus());
+			challenge.setProgress(fromDb.getProgress());
+			challenge.setId((int)id);
 			em.getTransaction().begin();
 			final Challenge result = em.merge(challenge);
 			em.getTransaction().commit();
