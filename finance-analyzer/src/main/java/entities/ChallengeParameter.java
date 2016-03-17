@@ -4,8 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity(name="challenge_parameters")
 @NamedQueries({
@@ -17,20 +21,23 @@ public class ChallengeParameter {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private int challenge_id;
+	@OneToOne
+	@JoinColumn(name="challenge_id")
+	@JsonIgnore
+	private Challenge challenge;
 	private boolean less_than;
 	private float value;
+	public void setChallenge(Challenge challenge) {
+		this.challenge = challenge;
+	}
+	public Challenge getChallenge() {
+		return challenge;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getChallenge_id() {
-		return challenge_id;
-	}
-	public void setChallenge_id(int challenge_id) {
-		this.challenge_id = challenge_id;
 	}
 	public boolean isLess_than() {
 		return less_than;

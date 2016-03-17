@@ -1,11 +1,13 @@
 package entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 @Entity(name="challenges")
 @NamedQueries({
@@ -23,7 +25,18 @@ public class Challenge {
 	private String deadline;
 	private String status;
 	private float progress;
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy="challenge")
+	private ChallengeParameter challengeParameter;
 
+	public ChallengeParameter getChallengeParameter() {
+		return challengeParameter;
+	}
+	
+	public void setChallengeParameter(ChallengeParameter challengeParameter) {
+		this.challengeParameter = challengeParameter;
+	}
+	
 	public int getId() {
 		return id;
 	}

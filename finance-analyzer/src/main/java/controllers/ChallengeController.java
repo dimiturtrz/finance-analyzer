@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import entities.Challenge;
-import controllers.EntityManagerService;
+import entities.ChallengeParameter;
 
 @XmlRootElement
 @Path("/challenges")
@@ -30,6 +30,7 @@ public class ChallengeController {
 		try {
 			final TypedQuery<Challenge> query =
 				em.createNamedQuery(Challenge.QUERY_ALL, Challenge.class);
+			System.out.println(query.getResultList().get(0));
 			return query.getResultList();
 		} finally {
 			em.close();
@@ -61,9 +62,25 @@ public class ChallengeController {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
 			em.getTransaction().begin();
+			Challenge dummy = em.getReference(Challenge.class, 1);
+			//dummy.setId(100000);
+//			System.out.println(dummy.getId());
+//			System.out.println(dummy.getDeclaration());
+			ChallengeParameter param = challenge.getChallengeParameter();
+			param.setChallenge(dummy);
+//			System.out.println("fuck you much");
 			em.persist(challenge);
 			em.getTransaction().commit();
-			
+
+//			System.out.println("_________________!!!!!!!!!!!!");
+//			System.out.println(challenge.getId());
+
+			em.getTransaction().begin();
+			param.setChallenge(challenge);
+			em.persist(param);
+			em.getTransaction().commit();
+
+//			challenge.getChallengeParameter().setId(challenge.getId());
 			return challenge;
 		} finally {
 			if (em.getTransaction().isActive()) {
@@ -103,10 +120,13 @@ public class ChallengeController {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
 			Challenge fromDb = getChallenge(id);
+			challenge.getChallengeParameter().setChallenge(fromDb.getChallengeParameter().getChallenge());
+			challenge.getChallengeParameter().setId(fromDb.getChallengeParameter().getId());
 			challenge.setStatus(fromDb.getStatus());
 			challenge.setProgress(fromDb.getProgress());
-			challenge.setId((int)id);
+			challenge.setId(fromDb.getId());
 			em.getTransaction().begin();
+			em.merge(challenge.getChallengeParameter());
 			final Challenge result = em.merge(challenge);
 			em.getTransaction().commit();
 			
