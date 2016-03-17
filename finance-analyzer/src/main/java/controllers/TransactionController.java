@@ -15,8 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import connectors.ChallengeUpdater;
 import entities.Transaction;
-import controllers.EntityManagerService;
 
 @XmlRootElement
 @Path("/transactions")
@@ -64,6 +64,8 @@ public class TransactionController {
 			em.persist(transaction);
 			em.getTransaction().commit();
 			
+			(new ChallengeUpdater(transaction, transaction)).updateChallenges(false);
+			
 			return transaction;
 		} finally {
 			if (em.getTransaction().isActive()) {
@@ -84,9 +86,10 @@ public class TransactionController {
 				throw new IllegalArgumentException(
 						"No task with id: " + id);
 			}
-			em.remove(transaction);
-			
+			em.remove(transaction);			
 			em.getTransaction().commit();
+			
+			(new ChallengeUpdater(transaction, transaction)).updateChallenges(true);
 		} finally {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
@@ -101,13 +104,15 @@ public class TransactionController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Transaction updateTransaction(@PathParam("id") long id, Transaction transaction) {
 		final EntityManager em = EntityManagerService.createEntityManager();
+		final Transaction old = (Transaction) em.find(Transaction.class, id).clone();
 		try {
-			Transaction fromDb = getTransaction(id);
 			transaction.setId((int)id);
 			em.getTransaction().begin();
 			Transaction result = em.merge(transaction);
 			em.getTransaction().commit();
-			
+
+			(new ChallengeUpdater(old, result)).updateChallenges(false);
+
 			return result;
 		} finally {
 			if (em.getTransaction().isActive()) {

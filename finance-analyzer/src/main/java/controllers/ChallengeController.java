@@ -63,24 +63,15 @@ public class ChallengeController {
 		try {
 			em.getTransaction().begin();
 			Challenge dummy = em.getReference(Challenge.class, 1);
-			//dummy.setId(100000);
-//			System.out.println(dummy.getId());
-//			System.out.println(dummy.getDeclaration());
 			ChallengeParameter param = challenge.getChallengeParameter();
 			param.setChallenge(dummy);
-//			System.out.println("fuck you much");
-			em.persist(challenge);
 			em.getTransaction().commit();
-
-//			System.out.println("_________________!!!!!!!!!!!!");
-//			System.out.println(challenge.getId());
 
 			em.getTransaction().begin();
 			param.setChallenge(challenge);
 			em.persist(param);
 			em.getTransaction().commit();
 
-//			challenge.getChallengeParameter().setId(challenge.getId());
 			return challenge;
 		} finally {
 			if (em.getTransaction().isActive()) {

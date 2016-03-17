@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 	@NamedQuery(name=Transaction.QUERY_ALL,
 		query = "SELECT t from transactions t")
 })
-public class Transaction {
+public class Transaction implements Cloneable {
 	public static final String QUERY_ALL = "allTransactions";
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,6 +21,15 @@ public class Transaction {
 	private float value;
 	private String date;
 	private boolean important;
+	
+	public Object clone(){  
+	    try {
+	        return super.clone();  
+	    } catch(Exception e){ 
+	        return null; 
+	    }
+	}
+
 	public int getId() {
 		return id;
 	}

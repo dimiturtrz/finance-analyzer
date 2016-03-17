@@ -1,5 +1,9 @@
 package entities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +32,18 @@ public class Challenge {
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy="challenge")
 	private ChallengeParameter challengeParameter;
+	
+	public boolean hasExpired(Date date) {
+		SimpleDateFormat format =
+		        new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date parsed = format.parse(getDeadline());
+			return date.after(parsed);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public ChallengeParameter getChallengeParameter() {
 		return challengeParameter;
