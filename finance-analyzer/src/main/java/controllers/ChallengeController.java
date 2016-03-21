@@ -61,15 +61,13 @@ public class ChallengeController {
 	public Challenge createChallenge(Challenge challenge) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
-			em.getTransaction().begin();
-			Challenge dummy = em.getReference(Challenge.class, 1);
 			ChallengeParameter param = challenge.getChallengeParameter();
-			param.setChallenge(dummy);
-			em.getTransaction().commit();
-
 			em.getTransaction().begin();
+			
+			em.persist(challenge);
 			param.setChallenge(challenge);
 			em.persist(param);
+			
 			em.getTransaction().commit();
 
 			return challenge;
