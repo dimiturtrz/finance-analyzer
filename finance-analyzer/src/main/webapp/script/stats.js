@@ -1,9 +1,10 @@
 $(document).ready(function() {
     "use strict";
 
-    var TRANSACTIONS_ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
+    var TRANSACTIONS_ENDPOINT = "http://localhost:3000/transactions";
+    // var TRANSACTIONS_ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
 
-    function listTransactions() {
+    function getTransactionsFromServer() {
         return $.ajax(TRANSACTIONS_ENDPOINT, {
             method: "GET",
             dataType: "json"
@@ -17,47 +18,46 @@ $(document).ready(function() {
     // 4. Percentage income-loss compared to last month
     // 5. Percentage for unimportant things out of all
 
-    transactionsFromThisMonth().then(function(transactions) {
+    getTransactions(fromThisMonth).then(function(transactions) {
         dashboardContentContainer.append("Absolute income for this month: " + absoluteIncome(transactions));
     });
 
-    function fromThisMonth(dateString) {
+    function getTransactions(filter) {
+        var transactions = $.Deferred();
+
+        getTransactionsFromServer().done(function(response) {
+            transactions.resolve($(response).filter(function(index, transaction) {
+                return filter(transaction);
+            }));
+        }).fail(function() {
+            transactions.resolve($([]));
+        });
+
+        return transactions.promise();
+    }
+
+    function fromThisMonth(transaction) {
         var curMonth = (new Date()).getMonth();
         var curYear = (new Date()).getYear();
 
-        return new Date(Date.parse(dateString)).getMonth() == curMonth &&
-               new Date(Date.parse(dateString)).getYear() == curYear;
+        return new Date(Date.parse(transaction.date)).getMonth() == curMonth &&
+               new Date(Date.parse(transaction.date)).getYear() == curYear;
     }
 
     function absoluteIncome(transactions) {
-        var absIncome = 0;
-        $(transactions).each(function(index, transaction) {
-            if(transaction.value > 0) {
-                absIncome += transaction.value;
-            }
-        });
-        return absIncome;
-    }
-
-    function transactionsFromThisMonth() {
-        var dfd = $.Deferred();
-
-        listTransactions().done(function(response) {
-            dfd.resolve($(response).filter(function(index, transaction) {
-                return fromThisMonth(transaction.date) == true;
-            }));
-        }).fail(function() {
-            dfd.resolve($([]));
-        });
-
-        return dfd.promise();
+        return $(transactions).toArray().reduce(function(absoluteIncome, transaction) {
+            if(transaction.value > 0)
+                return absoluteIncome + transaction.value;
+            else
+                return absoluteIncome;
+        }, 0);
     }
 
     var dashboardContentContainer = $("#dashboard-panel .page-content");
     
 
-    // var absIncomeThisMonth = absoluteIncome(transactionsFromThisMonth());
-    // var absLossThisMonth = absoluteLoss(transactionsFromThisMonth);
+    // var absIncomeThisMonth = absoluteIncome(transactionsdateIsFromThisMonth());
+    // var absLossThisMonth = absoluteLoss(transactionsdateIsFromThisMonth);
     // var verdict = absIncomeThisMonth - absLossThisMonth;
     // var absIncomeLastMonth = absoluteIncome(transactionsFromLastMonth);
     // var absLossLastMonth = absoluteLoss(transactionsFromLastMonth);
