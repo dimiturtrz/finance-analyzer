@@ -41,7 +41,8 @@ $(document).ready(function() {
         }
     });
 
-    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
+    var ENDPOINT = "http://localhost:3000/transactions";
+    // var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
 
     var description_input = $("#transaction-description-input");
     var value_input = $("#transaction-value-input");
@@ -50,10 +51,17 @@ $(document).ready(function() {
 
     date_input.datepicker();
 
+    function getTransactionValueFromInputs() {
+        var value = value_input.val();
+        var type = $("#transaction-type-input").find('input[type=radio]:checked').attr('value');
+        if(type === "expense") value *= -1;
+        return value;
+    }
+
     function buildTransactionFromInputs() {
         return {
             description: description_input.val(),
-            value: value_input.val(),
+            value: getTransactionValueFromInputs(),
             date: date_input.val(),
             important: important_input.parent().hasClass('checked')
         };
