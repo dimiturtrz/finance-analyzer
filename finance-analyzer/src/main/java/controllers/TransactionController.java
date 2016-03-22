@@ -86,10 +86,9 @@ public class TransactionController {
 				throw new IllegalArgumentException(
 						"No task with id: " + id);
 			}
-			em.remove(transaction);			
-			em.getTransaction().commit();
-			
 			(new ChallengeUpdater(transaction, transaction)).updateChallenges(true);
+			em.remove(transaction);	
+			em.getTransaction().commit();
 		} finally {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
