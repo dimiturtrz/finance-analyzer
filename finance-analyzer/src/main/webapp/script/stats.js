@@ -1,10 +1,14 @@
 $(document).ready(function() {
     "use strict";
 
-    var TRANSACTIONS_ENDPOINT = "http://localhost:3000/transactions";
-    // var TRANSACTIONS_ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
+    // var TRANSACTIONS_ENDPOINT = "http://localhost:3000/transactions";
+    // var CHALLENGES_ENDPOINT = "http://localhost:3000/challenges";
+    var TRANSACTIONS_ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
+    var CHALLENGES_ENDPOINT = "http://localhost:8080/finance-analyzer/rest/challenges";
 
     var dashboardContentContainer = $("#dashboard-panel .page-content");
+    var textStatsContainer = $("#text-stats");
+    var challengesProgressContainer = $("#challenges-progress");
 
     function getTransactionsFromServer() {
         return $.ajax(TRANSACTIONS_ENDPOINT, {
@@ -21,27 +25,27 @@ $(document).ready(function() {
     getTransactions(fromThisMonth).then(function(transactions) {
         var absoluteIncomeForThisMonth = absoluteIncome(transactions);
         var absoluteLossForThisMonth = absoluteLoss(transactions);
-        var balance = absoluteIncomeForThisMonth + absoluteLossForThisMonth;
+        var balance = (absoluteIncomeForThisMonth + absoluteLossForThisMonth).toFixed(2);
         var notImportant = transactions.filter(function(_, t) { return !t.important; });
-        var notImportantExpensesToImportantRatio = absoluteLoss(notImportant) / absoluteLossForThisMonth * 100;
+        var notImportantExpensesToImportantRatio = (absoluteLoss(notImportant) / absoluteLossForThisMonth).toFixed(2) * 100;
 
-        dashboardContentContainer.append("Absolute income for this month: " + absoluteIncomeForThisMonth + "<br>");
-        dashboardContentContainer.append("Absolute loss for this month: " + absoluteLossForThisMonth + "<br>");
+        textStatsContainer.append("Absolute income for this month: " + absoluteIncomeForThisMonth + "<br>");
+        textStatsContainer.append("Absolute loss for this month: " + absoluteLossForThisMonth + "<br>");
         expensesThisMonthDeferred.resolve(absoluteLossForThisMonth);
-        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance + "<br>");
+        textStatsContainer.append("Balance (absolute income - loss) for this month: " + balance + "<br>");
         balanceThisMonthDeferred.resolve(balance);
-        dashboardContentContainer.append("Unimportant/important ratio: " + notImportantExpensesToImportantRatio + "<br>");
+        textStatsContainer.append("Unimportant/important ratio: " + notImportantExpensesToImportantRatio + "%<br>");
         notImportantExpensesThisMonthDeferred.resolve(notImportantExpensesToImportantRatio);
     });
 
     getTransactions(fromLastMonth).then(function(transactions) {
         var absoluteIncomeForLastMonth = absoluteIncome(transactions);
         var absoluteLossForLastMonth = absoluteLoss(transactions);
-        var balance = absoluteIncomeForLastMonth + absoluteLossForLastMonth;
+        var balance = (absoluteIncomeForLastMonth + absoluteLossForLastMonth).toFixed(2);
 
-        dashboardContentContainer.append("Absolute income for last month: " + absoluteIncomeForLastMonth + "<br>");
-        dashboardContentContainer.append("Absolute loss for last month: " + absoluteLossForLastMonth + "<br>");
-        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance + "<br>");
+        textStatsContainer.append("Absolute income for last month: " + absoluteIncomeForLastMonth + "<br>");
+        textStatsContainer.append("Absolute loss for last month: " + absoluteLossForLastMonth + "<br>");
+        textStatsContainer.append("Balance (absolute income - loss) for this month: " + balance + "<br>");
         balanceLastMonthDeferred.resolve(balance);
     });
 
@@ -49,8 +53,8 @@ $(document).ready(function() {
         balanceThisMonthDeferred,
         balanceLastMonthDeferred
     ).then(function(balanceThisMonth, balanceLastMonth) {
-        var balanceComparedToLastMonthInPercents = balanceThisMonth / balanceLastMonth * 100;
-        dashboardContentContainer.append("Balance compared to last month: " + balanceComparedToLastMonthInPercents + "%");
+        var balanceComparedToLastMonthInPercents = ((balanceThisMonth / balanceLastMonth) * 100).toFixed(2);
+        textStatsContainer.append("Balance compared to last month: " + balanceComparedToLastMonthInPercents + "%");
     });
 
     function getTransactions(filter) {
@@ -136,6 +140,36 @@ $(document).ready(function() {
                 }
             }
         }
+        });
+    });
+
+    function buildBox(challenge) {
+        var progressInPercents = (challenge.progress / challenge.challengeParameter.value).toFixed(2) * 100;
+        return "<div class=\"col-sm-6 col-md-3\">" +
+            "<div class=\"panel task db mbm\">" +
+                "<div class=\"panel-body\">" +
+                    "<p class=\"icon\">" +
+                        "<i class=\"icon fa fa-signal\"></i>" +
+                    "</p>" +
+                    "<h4 class=\"value\">" +
+                        "<span>" + challenge.declaration + "</span></h4>" +
+                    "<p class=\"description\">" +
+                        "Challenge progress: " + progressInPercents + "%</p>" +
+                    "<div class=\"progress progress-sm mbn\">" +
+                        "<div role=\"progressbar\" aria-valuenow=\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: " + progressInPercents + "%;\" class=\"progress-bar progress-bar-danger\">" +
+                            "<span class=\"sr-only\">50% Complete (success)</span></div>" +
+                    "</div>" +
+                "</div>" +
+            "</div>" +
+        "</div>";
+    }
+
+    $.ajax(CHALLENGES_ENDPOINT, {
+        method: "GET",
+        dataType: "json"
+    }).then(function(challenges) {
+        $(challenges).each(function(index, challenge) {
+            challengesProgressContainer.append(buildBox(challenge));
         });
     });
 });
