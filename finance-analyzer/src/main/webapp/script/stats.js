@@ -4,6 +4,8 @@ $(document).ready(function() {
     var TRANSACTIONS_ENDPOINT = "http://localhost:3000/transactions";
     // var TRANSACTIONS_ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
 
+    var dashboardContentContainer = $("#dashboard-panel .page-content");
+
     function getTransactionsFromServer() {
         return $.ajax(TRANSACTIONS_ENDPOINT, {
             method: "GET",
@@ -11,44 +13,35 @@ $(document).ready(function() {
         });
     }
 
-    // TODO:
-    // 1. Absolute income for this month - DONE
-    // 2. Absolute loss for this month DONE
-    // 3. Absolute income - loss DONE
-    // 4. Percentage income-loss compared to last month DONE
-    // 5. Percentage for unimportant things out of all
-
     var balanceThisMonthDeferred = $.Deferred(),
-        balanceLastMonthDeferred = $.Deferred();
+        balanceLastMonthDeferred = $.Deferred(),
+        expensesThisMonthDeferred = $.Deferred(),
+        notImportantExpensesThisMonthDeferred = $.Deferred();
 
     getTransactions(fromThisMonth).then(function(transactions) {
-        // var absoluteIncomeForThisMonth = $.Deferred(),
-        //     absoluteLossForThisMonth = $.Deferred();
         var absoluteIncomeForThisMonth = absoluteIncome(transactions);
         var absoluteLossForThisMonth = absoluteLoss(transactions);
-        dashboardContentContainer.append("Absolute income for this month: " + absoluteIncomeForThisMonth);
-        dashboardContentContainer.append("<br>");
-        dashboardContentContainer.append("Absolute loss for this month: " + absoluteLossForThisMonth);
-        dashboardContentContainer.append("<br>");
         var balance = absoluteIncomeForThisMonth + absoluteLossForThisMonth;
-        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance);
-        balanceThisMonthDeferred.resolve(balance);
-        dashboardContentContainer.append("<br>");
-        var notImportant = transactions.filter(function(_, t) { console.log(t.important == false); return t.important == false; });
+        var notImportant = transactions.filter(function(_, t) { return !t.important; });
         var notImportantExpensesToImportantRatio = absoluteLoss(notImportant) / absoluteLossForThisMonth * 100;
-        dashboardContentContainer.append("Absolute not important for this month: " + notImportantExpensesToImportantRatio);
+
+        dashboardContentContainer.append("Absolute income for this month: " + absoluteIncomeForThisMonth + "<br>");
+        dashboardContentContainer.append("Absolute loss for this month: " + absoluteLossForThisMonth + "<br>");
+        expensesThisMonthDeferred.resolve(absoluteLossForThisMonth);
+        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance + "<br>");
+        balanceThisMonthDeferred.resolve(balance);
+        dashboardContentContainer.append("Unimportant/important ratio: " + notImportantExpensesToImportantRatio + "<br>");
+        notImportantExpensesThisMonthDeferred.resolve(notImportantExpensesToImportantRatio);
     });
 
     getTransactions(fromLastMonth).then(function(transactions) {
         var absoluteIncomeForLastMonth = absoluteIncome(transactions);
         var absoluteLossForLastMonth = absoluteLoss(transactions);
-        dashboardContentContainer.append("<br>");
-        dashboardContentContainer.append("Absolute income for last month: " + absoluteIncomeForLastMonth);
-        dashboardContentContainer.append("<br>");
-        dashboardContentContainer.append("Absolute loss for last month: " + absoluteLossForLastMonth);
-        dashboardContentContainer.append("<br>");
         var balance = absoluteIncomeForLastMonth + absoluteLossForLastMonth;
-        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance);
+
+        dashboardContentContainer.append("Absolute income for last month: " + absoluteIncomeForLastMonth + "<br>");
+        dashboardContentContainer.append("Absolute loss for last month: " + absoluteLossForLastMonth + "<br>");
+        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance + "<br>");
         balanceLastMonthDeferred.resolve(balance);
     });
 
@@ -56,15 +49,9 @@ $(document).ready(function() {
         balanceThisMonthDeferred,
         balanceLastMonthDeferred
     ).then(function(balanceThisMonth, balanceLastMonth) {
-        dashboardContentContainer.append("<br>");
         var balanceComparedToLastMonthInPercents = balanceThisMonth / balanceLastMonth * 100;
         dashboardContentContainer.append("Balance compared to last month: " + balanceComparedToLastMonthInPercents + "%");
     });
-
-    // getTransactions(notImportantFromThisMonth).then(function(transactions) {
-    //     dashboardContentContainer.append("<br>");
-    //     dashboardContentContainer.append("Absolute not important for this month: " + absoluteLoss(transactions));
-    // });
 
     function getTransactions(filter) {
         var transactions = $.Deferred();
@@ -119,21 +106,36 @@ $(document).ready(function() {
         return (curMonth == transactionMonth + 1) && (curYear == transactionYear);
     }
 
-    function notImportantFromThisMonth(transaction) {
-        return !transaction.important && fromThisMonth(transaction);
-    }
+    $.when(
+        notImportantExpensesThisMonthDeferred
+    ).then(function(notImportantInPercents) {
+        var notImportant = [notImportantInPercents];
+        var important = [100-notImportantInPercents];
 
-    var dashboardContentContainer = $("#dashboard-panel .page-content");
-    
-
-    // var absIncomeThisMonth = absoluteIncome(transactionsdateIsFromThisMonth());
-    // var absLossThisMonth = absoluteLoss(transactionsdateIsFromThisMonth);
-    // var verdict = absIncomeThisMonth - absLossThisMonth;
-    // var absIncomeLastMonth = absoluteIncome(transactionsFromLastMonth);
-    // var absLossLastMonth = absoluteLoss(transactionsFromLastMonth);
-    // var verdictLastMonth = absIncomeLastMonth - absLossLastMonth;
-    // var comparedToLastMonthInPercents = verdict / verdictLastMonth * 100;
-    // var unimportantTransactionsThisMonth = getUnimportantTransactions();
-    // var unimportantToImportantRatioInPercents = ...;
-
+        $.plot('#pie-chart', [{
+            data: notImportant,
+            label: "Not important transactions",
+            color: "#3DB9D3"
+        },
+        {
+            data: important,
+            label: "Important transactions",
+            color: "#ffce54"
+        }], {
+        series: {
+            pie: {
+                show: true,
+                radius: 1,
+                label: {
+                    show: true,
+                    radius: 3/4,
+                    background: {
+                        opacity: 0.5,
+                        color: '#000'
+                    }
+                }
+            }
+        }
+        });
+    });
 });
