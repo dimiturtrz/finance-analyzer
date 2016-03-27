@@ -20,6 +20,8 @@ $(document).ready(function() {
 
     getTransactions(fromThisMonth).then(function(transactions) {
         dashboardContentContainer.append("Absolute income for this month: " + absoluteIncome(transactions));
+        dashboardContentContainer.append("<br>");
+        dashboardContentContainer.append("Absolute loss for this month: " + absoluteLoss(transactions));
     });
 
     function getTransactions(filter) {
@@ -50,6 +52,15 @@ $(document).ready(function() {
                 return absoluteIncome + transaction.value;
             else
                 return absoluteIncome;
+        }, 0);
+    }
+
+    function absoluteLoss(transactions) {
+        return $(transactions).toArray().reduce(function(absoluteLoss, transaction) {
+            if(transaction.value < 0)
+                return absoluteLoss + transaction.value;
+            else
+                return absoluteLoss;
         }, 0);
     }
 
