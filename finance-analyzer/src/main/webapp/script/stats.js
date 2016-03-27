@@ -19,9 +19,16 @@ $(document).ready(function() {
     // 5. Percentage for unimportant things out of all
 
     getTransactions(fromThisMonth).then(function(transactions) {
-        dashboardContentContainer.append("Absolute income for this month: " + absoluteIncome(transactions));
+        // var absoluteIncomeForThisMonth = $.Deferred(),
+        //     absoluteLossForThisMonth = $.Deferred();
+        var absoluteIncomeForThisMonth = absoluteIncome(transactions);
+        var absoluteLossForThisMonth = absoluteLoss(transactions);
+        dashboardContentContainer.append("Absolute income for this month: " + absoluteIncomeForThisMonth);
         dashboardContentContainer.append("<br>");
-        dashboardContentContainer.append("Absolute loss for this month: " + absoluteLoss(transactions));
+        dashboardContentContainer.append("Absolute loss for this month: " + absoluteLossForThisMonth);
+        dashboardContentContainer.append("<br>");
+        var balance = absoluteIncomeForThisMonth + absoluteLossForThisMonth;
+        dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance);
     });
 
     function getTransactions(filter) {
