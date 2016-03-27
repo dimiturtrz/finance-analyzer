@@ -33,6 +33,10 @@ $(document).ready(function() {
         var balance = absoluteIncomeForThisMonth + absoluteLossForThisMonth;
         dashboardContentContainer.append("Balance (absolute income - loss) for this month: " + balance);
         balanceThisMonthDeferred.resolve(balance);
+        dashboardContentContainer.append("<br>");
+        var notImportant = transactions.filter(function(_, t) { console.log(t.important == false); return t.important == false; });
+        var notImportantExpensesToImportantRatio = absoluteLoss(notImportant) / absoluteLossForThisMonth * 100;
+        dashboardContentContainer.append("Absolute not important for this month: " + notImportantExpensesToImportantRatio);
     });
 
     getTransactions(fromLastMonth).then(function(transactions) {
@@ -56,6 +60,11 @@ $(document).ready(function() {
         var balanceComparedToLastMonthInPercents = balanceThisMonth / balanceLastMonth * 100;
         dashboardContentContainer.append("Balance compared to last month: " + balanceComparedToLastMonthInPercents + "%");
     });
+
+    // getTransactions(notImportantFromThisMonth).then(function(transactions) {
+    //     dashboardContentContainer.append("<br>");
+    //     dashboardContentContainer.append("Absolute not important for this month: " + absoluteLoss(transactions));
+    // });
 
     function getTransactions(filter) {
         var transactions = $.Deferred();
@@ -108,6 +117,10 @@ $(document).ready(function() {
             return true;
         
         return (curMonth == transactionMonth + 1) && (curYear == transactionYear);
+    }
+
+    function notImportantFromThisMonth(transaction) {
+        return !transaction.important && fromThisMonth(transaction);
     }
 
     var dashboardContentContainer = $("#dashboard-panel .page-content");
