@@ -1,6 +1,8 @@
 $(document).ready(function() {
     "use strict";
 
+    var LOGIN_REDIRECT = "http://localhost:8080/finance-analyzer/page.html#dashboard"
+    
     var modal_register = $("#modal-register");
     var register_submit = modal_register.find('button[type="submit"]');
     register_submit.on('click', function(e) {
@@ -13,10 +15,10 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    var ENDPOINT = "http://localhost:3000/users";
+    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/users/";
 
     function registerUser(user) {
-        $.ajax(ENDPOINT, {
+        $.ajax(ENDPOINT + "register", {
             method: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(user),
@@ -40,12 +42,23 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    var ENDPOINT = "http://localhost:3000/users/authenticate"; // to be implemented
-    var LOGIN_REDIRECT = "http://localhost:8080/finance-analyzer/page.html#dashboard"
+    //var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/users/authenticate"; // to be implemented
 
     function logInUser(user) {
+    	authenticateUser(user)
         if(true) { // TODO if successfully authenticated
-            window.location.replace(LOGIN_REDIRECT);
+            //window.location.replace(LOGIN_REDIRECT);
         }
+    }
+    
+    function authenticateUser(user) {
+        $.ajax(ENDPOINT + "/authenticate", {
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(user),
+            dataType: "json"
+        }).then(function(response) {
+            window.location.replace(LOGIN_REDIRECT);
+        });
     }
 });
