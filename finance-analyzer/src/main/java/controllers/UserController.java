@@ -15,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
+
 import entities.User;
 import controllers.EntityManagerService;
 
@@ -113,5 +115,22 @@ public class UserController {
 			}
 			em.close();
 		}
+	}
+	
+	@POST
+	@Path("/authenticate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RequiresUser
+	public User SignIn(User user){
+		return null;
+	}
+	
+	@POST
+	@Path("/register")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresUser
+	public User signUp(User user) {
+		return null;
 	}
 }
