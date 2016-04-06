@@ -113,6 +113,11 @@ $(document).ready(function() {
     $.when(
         notImportantExpensesThisMonthDeferred
     ).then(function(notImportantInPercents) {
+        if(isNaN(notImportantInPercents)) {
+            $(".portlet-body").html("<p>No transactions for this month yet.</p>");
+            return;
+        }
+
         var notImportant = [notImportantInPercents];
         var important = [100-notImportantInPercents];
 
