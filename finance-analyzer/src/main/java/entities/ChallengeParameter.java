@@ -25,7 +25,7 @@ public class ChallengeParameter {
 	@JoinColumn(name="challenge_id")
 	@JsonIgnore
 	private Challenge challenge;
-	private boolean less_than;
+	private boolean lessThan;
 	private float value;
 	public void setChallenge(Challenge challenge) {
 		this.challenge = challenge;
@@ -39,11 +39,11 @@ public class ChallengeParameter {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public boolean isLess_than() {
-		return less_than;
+	public boolean isLessThan() {
+		return lessThan;
 	}
-	public void setLess_than(boolean less_than) {
-		this.less_than = less_than;
+	public void setLess_than(boolean lessThan) {
+		this.lessThan = lessThan;
 	}
 	public float getValue() {
 		return value;

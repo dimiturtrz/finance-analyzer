@@ -30,7 +30,6 @@ public class ChallengeController {
 		try {
 			final TypedQuery<Challenge> query =
 				em.createNamedQuery(Challenge.QUERY_ALL, Challenge.class);
-			System.out.println(query.getResultList().get(0));
 			return query.getResultList();
 		} finally {
 			em.close();
