@@ -42,6 +42,7 @@ $(document).ready(function() {
     });
 
     var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/challenges";
+    // var ENDPOINT = "http://localhost:3000/challenges";
 
     var declaration_input = $("#challenge-declaration-input");
     var since_input = $("#challenge-since-input");

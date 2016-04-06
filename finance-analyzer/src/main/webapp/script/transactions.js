@@ -41,8 +41,8 @@ $(document).ready(function() {
         }
     });
 
-    var ENDPOINT = "http://localhost:3000/transactions";
-    // var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
+    // var ENDPOINT = "http://localhost:3000/transactions";
+    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/transactions";
 
     var description_input = $("#transaction-description-input");
     var value_input = $("#transaction-value-input");
@@ -142,8 +142,15 @@ $(document).ready(function() {
 
         readTransaction(id).then(function(response) {
             description_input.val(response.description);
-            value_input.val(response.value);
+            value_input.val(Math.abs(response.value));
             date_input.val(response.date);
+            if(response.value > 0) {
+                $("#transaction-type-input").find('input[type=radio][value=gain]').parent().addClass("checked");
+                $("#transaction-type-input").find('input[type=radio][value=expense]').parent().removeClass("checked");
+            } else if(response.value < 0) {
+                $("#transaction-type-input").find('input[type=radio][value=gain]').parent().removeClass("checked");
+                $("#transaction-type-input").find('input[type=radio][value=expense]').parent().addClass("checked");
+            }
             if(response.important == true || response.important == "on") {
                 important_input.parent().addClass('checked');
             } else {

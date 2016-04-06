@@ -49,10 +49,14 @@ public class ChallengeUpdater {
 		}else if(old.getValue() > 0 && updated.getValue() <= 0) {
 			if(!challenge.getChallengeParameter().isLessThan()) {
 				return -old.getValue();
+			} else {
+				return -updated.getValue();
 			}
 		}else if(old.getValue() < 0 && updated.getValue() >= 0) {
 			if(challenge.getChallengeParameter().isLessThan()) {
 				return old.getValue();
+			} else {
+				return updated.getValue();
 			}
 		}
 		return 0.0f;

@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class ChallengeParameter {
 	@JoinColumn(name="challenge_id")
 	@JsonIgnore
 	private Challenge challenge;
+	@Column(name = "less_than")
 	private boolean lessThan;
 	private float value;
 	public void setChallenge(Challenge challenge) {
