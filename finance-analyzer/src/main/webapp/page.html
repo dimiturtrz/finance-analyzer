@@ -168,8 +168,6 @@
                                                     <label></label><input type="radio" name="trans-type" value="gain">Gain
                                                     <label></label><input type="radio" name="trans-type" value="expense">Expense
                                                 </div>
-                                                <!--<input id="transaction-type-input" type="radio" name="trans-type" class="form-control">
-                                                <input id="transaction-type-input" type="radio" name="trans-type" class="form-control"> -->
                                         </div>
                                     </div>
                                 </div>
@@ -276,19 +274,22 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="challenge-value-input" class="control-label">
-                                                Value</label>
-                                                <input id="challenge-value-input" type="text" placeholder="" class="form-control">
+                                        <div class="form-group" id="challenge-less-than-input">
+                                            <label class="control-label">
+                                                Type</label>
+                                                <div>
+                                                    <label></label><input type="radio" name="trans-type" value="more-than">Make at least
+                                                    <label></label><input type="radio" name="trans-type" value="less-than">Spend less than
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="challenge-less-than-input" class="control-label">
-                                                Less than?</label>
-                                                <input id="challenge-less-than-input" type="text" placeholder="" class="form-control">
+                                            <label for="challenge-value-input" class="control-label">
+                                                Value</label>
+                                                <input id="challenge-value-input" type="text" placeholder="" class="form-control">
                                         </div>
                                     </div>
                                 </div>

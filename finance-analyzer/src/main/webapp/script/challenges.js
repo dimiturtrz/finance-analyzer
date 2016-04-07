@@ -17,7 +17,7 @@ $(document).ready(function() {
         since_input.val("");
         deadline_input.val("");
         value_input.val("");
-        less_than_input.val("");
+        lessThanInput.val("");
     }
     
     challenge_panel.hide();
@@ -48,10 +48,18 @@ $(document).ready(function() {
     var since_input = $("#challenge-since-input");
     var deadline_input = $("#challenge-deadline-input");
     var value_input = $("#challenge-value-input");
-    var less_than_input = $("#challenge-less-than-input");
+    var lessThanInput = $("#challenge-less-than-input");
 
     since_input.datepicker();
     deadline_input.datepicker();
+
+    function getLessThanValue() {
+        var value = $("#challenge-less-than-input").find('input[type=radio]:checked').attr('value');
+        if(value == "less-than")
+            return true;
+        else
+            return false;
+    }
 
     function buildChallengeFromInputs() {
         return {
@@ -59,14 +67,13 @@ $(document).ready(function() {
             since: since_input.val(),
             deadline: deadline_input.val(),
             challengeParameter: {
-                less_than: less_than_input.val(),
+                less_than: getLessThanValue(),
                 value: value_input.val()
             }
         };
     }
 
     function create_challenge() {
-        // temp code which has to run on the server
         var challenge = buildChallengeFromInputs();
         challenge.status = "in-progress";
         challenge.progress = 0.0;
@@ -100,7 +107,7 @@ $(document).ready(function() {
                 .append($("<td></td>").text(challenge.id))
                 .append($("<td></td>").text(challenge.declaration))
                 .append($("<td></td>").text(challenge.challengeParameter.value))
-                .append($("<td></td>").text(challenge.challengeParameter.less_than))
+                .append($("<td></td>").text(challenge.challengeParameter.lessThan))
                 .append($("<td></td>").text(challenge.since))
                 .append($("<td></td>").text(challenge.deadline))
                 .append($("<td></td>").text(challenge.status))
@@ -151,7 +158,13 @@ $(document).ready(function() {
             since_input.val(response.since);
             deadline_input.val(response.deadline);
             value_input.val(response.challengeParameter.value);
-            less_than_input.val(response.challengeParameter.less_than);
+            if(response.challengeParameter.lessThan == true) {
+                $("#challenge-less-than-input").find('input[type=radio][value=less-than]').parent().addClass("checked");
+                $("#challenge-less-than-input").find('input[type=radio][value=more-than]').parent().removeClass("checked");
+            } else {
+                $("#challenge-less-than-input").find('input[type=radio][value=less-than]').parent().removeClass("checked");
+                $("#challenge-less-than-input").find('input[type=radio][value=more-than]').parent().addClass("checked");
+            }
         });
     }
 
