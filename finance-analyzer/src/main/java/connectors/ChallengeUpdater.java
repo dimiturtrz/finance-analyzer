@@ -12,6 +12,33 @@ import entities.Transaction;
 public class ChallengeUpdater {
 	private final EntityManager em = EntityManagerService.createEntityManager();
 
+	public void onCreate(Transaction t) {
+		List<Challenge> challenges = new ChallengeController().getChallenges();
+		try {
+			em.getTransaction().begin();
+			
+			for(Challenge challenge : challenges) {
+				if(!challenge.hasExpired(new Date())) {
+					if(challenge.getChallengeParameter().isLessThan()) {
+						if(t.getValue() < 0) {
+							challenge.setProgress(challenge.getProgress() - t.getValue());
+							em.merge(challenge);
+						}
+					} else {
+						if(t.getValue() > 0) {
+							challenge.setProgress(challenge.getProgress() + t.getValue());
+							em.merge(challenge);
+						}
+					}
+				}
+			}
+
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+	
 	public void onUpdate(Transaction old, Transaction updated) {
 		List<Challenge> challenges = new ChallengeController().getChallenges();
 		try {
@@ -30,11 +57,6 @@ public class ChallengeUpdater {
 		} finally {
 			em.close();
 		}
-	}
-	
-	public void updateChallenges(boolean deleting) {
-		
-		
 	}
 
 	public float calculateDelta(Transaction old, Transaction updated, Challenge challenge) {
@@ -60,5 +82,32 @@ public class ChallengeUpdater {
 			}
 		}
 		return 0.0f;
+	}
+	
+	public void onDelete(Transaction t) {
+		List<Challenge> challenges = new ChallengeController().getChallenges();
+		try {
+			em.getTransaction().begin();
+			
+			for(Challenge challenge : challenges) {
+				if(!challenge.hasExpired(new Date())) {
+					if(challenge.getChallengeParameter().isLessThan()) {
+						if(t.getValue() < 0) {
+							challenge.setProgress(challenge.getProgress() + t.getValue());
+							em.merge(challenge);
+						}
+					} else {
+						if(t.getValue() > 0) {
+							challenge.setProgress(challenge.getProgress() - t.getValue());
+							em.merge(challenge);
+						}
+					}
+				}
+			}
+
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
 	}
 }

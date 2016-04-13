@@ -62,9 +62,8 @@ public class TransactionController {
 		try {
 			em.getTransaction().begin();
 			em.persist(transaction);
+			(new ChallengeUpdater()).onCreate(transaction);
 			em.getTransaction().commit();
-			
-//			(new ChallengeUpdater().onUpdate(false);
 			
 			return transaction;
 		} finally {
@@ -86,7 +85,7 @@ public class TransactionController {
 				throw new IllegalArgumentException(
 						"No task with id: " + id);
 			}
-//			(new ChallengeUpdater(transaction, transaction)).updateChallenges(true);
+			(new ChallengeUpdater()).onDelete(transaction);
 			em.remove(transaction);	
 			em.getTransaction().commit();
 		} finally {
@@ -108,11 +107,8 @@ public class TransactionController {
 			transaction.setId((int)id);
 			em.getTransaction().begin();
 			Transaction result = em.merge(transaction);
-			em.getTransaction().commit();
-
 			(new ChallengeUpdater()).onUpdate(old, result);
-//			(new ChallengeUpdater(old, result)).updateChallenges(false);
-
+			em.getTransaction().commit();
 			return result;
 		} finally {
 			if (em.getTransaction().isActive()) {
