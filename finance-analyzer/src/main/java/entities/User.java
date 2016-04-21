@@ -21,8 +21,8 @@ public class User {
 	private String username;
 	private String password_hash;
 	private String password_salt;
+	private String password;
 	private float balance;
-	private boolean admin;
 	
 	public int getId() {
 		return id;
@@ -60,11 +60,10 @@ public class User {
 	public void setBalance(float balance) {
 		this.balance = balance;
 	}
-	public boolean isAdmin() {
-		return admin;
+	public String getPassword() {
+		return password;
 	}
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	
 }
