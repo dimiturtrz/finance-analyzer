@@ -22,9 +22,13 @@ $(document).ready(function() {
             method: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(user),
-            dataType: "json"
-        }).then(function(response) {
-            window.location.replace(LOGIN_REDIRECT);
+            dataType: "json",
+            
+            success: function(){
+            	window.location.replace(LOGIN_REDIRECT);
+            },
+        
+        	error: function(msg) { alert(msg.responseText); }
         });
     }
 
@@ -35,7 +39,6 @@ $(document).ready(function() {
     login_submit.on('click', function(e) {
         var user = {
             username: $("#form-login-username").val(),
-            email: $("#form-login-email").val(),
             password: $("#form-login-password").val()
         };
         logInUser(user);
@@ -56,9 +59,13 @@ $(document).ready(function() {
             method: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(user),
-            dataType: "json"
-        }).then(function(response) {
-            window.location.replace(LOGIN_REDIRECT);
+            dataType: "json",
+            
+            success: function(){
+            	window.location.replace(LOGIN_REDIRECT);
+            },
+        
+        	error: function(msg) { alert(msg.responseText); }
         });
     }
 });
