@@ -1,6 +1,7 @@
 package controllers;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -36,5 +37,14 @@ public class AuthenticationController {
 	public User signUp(User user) {
 		user.setPassword(passwordService.encryptPassword(user.getPassword()));
 		return (new UserController()).createUser(user);
+	}
+	
+	@DELETE
+	@Path("/logout")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void logout() {
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
 	}
 }
