@@ -9,14 +9,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.subject.Subject;
 
 import entities.User;
-import helpers.ShiroPasswordService;
 
 @XmlRootElement
 @Path("/auth")
 public class AuthenticationController {
+	
+	final static DefaultPasswordService passwordService = new DefaultPasswordService();
+	
 	@POST
 	@Path("/authenticate")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -31,8 +34,7 @@ public class AuthenticationController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signUp(User user) {
-		user.setPasswordSalt(ShiroPasswordService.generateSalt());
-		user.setPassword(ShiroPasswordService.generatePassword(user.getPassword(), user.getPasswordSalt()));
+		user.setPassword(passwordService.encryptPassword(user.getPassword()));
 		return (new UserController()).createUser(user);
 	}
 }

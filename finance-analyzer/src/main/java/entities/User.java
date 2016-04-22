@@ -20,14 +20,7 @@ public class User {
 	private String email;
 	private String username;
 	private String password;
-	private String passwordSalt;
 	
-	public String getPasswordSalt() {
-		return passwordSalt;
-	}
-	public void setPasswordSalt(String passwordSalt) {
-		this.passwordSalt = passwordSalt;
-	}
 	public String getPassword() {
 		return password;
 	}
