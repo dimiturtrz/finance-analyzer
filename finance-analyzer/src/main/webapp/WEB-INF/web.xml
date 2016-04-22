@@ -25,6 +25,11 @@
 		 <url-pattern>/rest/*</url-pattern>
 	 </servlet-mapping>
 	 
+	 <!-- Custom initializer -->
+	<listener>
+		<listener-class> initializers.FinanceServletContextListener </listener-class>
+   </listener>
+	 
 	<!-- Shiro setup -->
 	<listener>
 		<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>

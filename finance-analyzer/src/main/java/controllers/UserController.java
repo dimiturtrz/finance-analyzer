@@ -15,11 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresUser;
-import org.apache.shiro.subject.Subject;
-
 import entities.User;
 
 @XmlRootElement
@@ -117,23 +112,5 @@ public class UserController {
 			}
 			em.close();
 		}
-	}
-	
-	@POST
-	@Path("/authenticate")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void SignIn(User user){
-		Subject currentUser = SecurityUtils.getSubject();
-	    UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-	    token.setRememberMe(true);
-	    currentUser.login(token);
-	}
-	
-	@POST
-	@Path("/register")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public User signUp(User user) {
-		return createUser(user);
 	}
 }

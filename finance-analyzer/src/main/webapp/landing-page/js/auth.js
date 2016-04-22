@@ -15,7 +15,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/users/";
+    var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/auth/";
 
     function registerUser(user) {
         $.ajax(ENDPOINT + "register", {
