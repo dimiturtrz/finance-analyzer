@@ -1,7 +1,7 @@
-package initializers;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import helpers.ShiroInitializer;
 
 public class FinanceServletContextListener implements ServletContextListener{
 	

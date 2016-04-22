@@ -12,6 +12,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
 import entities.User;
+import helpers.ShiroPasswordService;
 
 @XmlRootElement
 @Path("/auth")
@@ -30,31 +31,8 @@ public class AuthenticationController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signUp(User user) {
-		//user.setPassword(encryptPassword(user.getPassword()));
+		user.setPasswordSalt(ShiroPasswordService.generateSalt());
+		user.setPassword(ShiroPasswordService.generatePassword(user.getPassword(), user.getPasswordSalt()));
 		return (new UserController()).createUser(user);
 	}
-	
-	/*public String encryptPassword(String password) {
-		final PasswordService passwordService = getPasswordService();
-		return passwordService.encryptPassword(password);
-	}
-	
-	private PasswordService getPasswordService() {
-		final RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
-		final Collection<Realm> realms = securityManager.getRealms();
-		PasswordMatcher credentialsMatcher = null;
-		for (Realm next : realms) {
-			if (next instanceof AuthenticatingRealm) {
-				final AuthenticatingRealm authenticatingRealm = (AuthenticatingRealm) next;
-				if (authenticatingRealm.getCredentialsMatcher() instanceof PasswordMatcher) {
-					credentialsMatcher = (PasswordMatcher) authenticatingRealm.getCredentialsMatcher();
-					break;
-				}
-			}
-		}
-		if (credentialsMatcher == null) {
-			throw new IllegalStateException("Bad configuration");
-		}
-		return credentialsMatcher.getPasswordService();
-	}*/
 }
