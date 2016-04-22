@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.Collection;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,16 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authc.credential.PasswordMatcher;
-import org.apache.shiro.authc.credential.PasswordService;
-import org.apache.shiro.config.IniSecurityManagerFactory;
-import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.realm.AuthenticatingRealm;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.Factory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import entities.User;
 
@@ -33,7 +22,6 @@ public class AuthenticationController {
 	public void SignIn(User user){
 		Subject currentUser = SecurityUtils.getSubject();
 	    UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-	    token.setRememberMe(true);
 	    currentUser.login(token);
 	}
 	
@@ -42,11 +30,11 @@ public class AuthenticationController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signUp(User user) {
-		user.setPassword(encryptPassword(user.getPassword()));
+		//user.setPassword(encryptPassword(user.getPassword()));
 		return (new UserController()).createUser(user);
 	}
 	
-	public String encryptPassword(String password) {
+	/*public String encryptPassword(String password) {
 		final PasswordService passwordService = getPasswordService();
 		return passwordService.encryptPassword(password);
 	}
@@ -68,5 +56,5 @@ public class AuthenticationController {
 			throw new IllegalStateException("Bad configuration");
 		}
 		return credentialsMatcher.getPasswordService();
-	}
+	}*/
 }
