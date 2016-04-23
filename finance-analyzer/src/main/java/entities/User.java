@@ -10,10 +10,13 @@ import javax.persistence.NamedQuery;
 @Entity(name="users")
 @NamedQueries({
 	@NamedQuery(name=User.QUERY_ALL,
-		query = "SELECT t from users t")
+		query = "SELECT t from users t"),
+	@NamedQuery(name=User.QUERY_BY_USERNAME,
+		query = "SELECT t from users t WHERE t.username = :username"),
 })
 public class User {
 	public static final String QUERY_ALL = "allUsers";
+	public static final String QUERY_BY_USERNAME = "usersByUsername";
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

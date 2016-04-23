@@ -17,15 +17,18 @@ import javax.persistence.OneToOne;
 @Entity(name="challenges")
 @NamedQueries({
 	@NamedQuery(name=Challenge.QUERY_ALL,
-		query = "SELECT t from challenges t")
+		query = "SELECT t from challenges t"),
+	@NamedQuery(name=Challenge.QUERY_BY_USER,
+		query = "SELECT t from transactions t WHERE t.user = :user")
 })
 public class Challenge {
 	public static final String QUERY_ALL = "allChallenges";
+	public static final String QUERY_BY_USER = "challengesByUser";
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@ManyToOne
-	private User owner;
+	private User user;
 	private String declaration;
 	private String since;
 	private String deadline;
@@ -63,12 +66,12 @@ public class Challenge {
 		this.id = id;
 	}
 
-	public User getOwner() {
-		return owner;
+	public User getUser() {
+		return user;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getDeclaration() {

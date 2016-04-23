@@ -15,8 +15,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
+
 import entities.Challenge;
 import entities.ChallengeParameter;
+import helpers.AuthenticationHelper;
 
 @XmlRootElement
 @Path("/challenges")
@@ -29,7 +32,7 @@ public class ChallengeController {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
 			final TypedQuery<Challenge> query =
-				em.createNamedQuery(Challenge.QUERY_ALL, Challenge.class);
+				em.createNamedQuery(Challenge.QUERY_BY_USER, Challenge.class);
 			return query.getResultList();
 		} finally {
 			em.close();
@@ -60,6 +63,7 @@ public class ChallengeController {
 	public Challenge createChallenge(Challenge challenge) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
+			challenge.setUser(AuthenticationHelper.getCurrentUser());
 			ChallengeParameter param = challenge.getChallengeParameter();
 			em.getTransaction().begin();
 			

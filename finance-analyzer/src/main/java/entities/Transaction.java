@@ -11,15 +11,18 @@ import javax.persistence.NamedQuery;
 @Entity(name="transactions")
 @NamedQueries({
 	@NamedQuery(name=Transaction.QUERY_ALL,
-		query = "SELECT t from transactions t")
+		query = "SELECT t from transactions t"),
+	@NamedQuery(name=Transaction.QUERY_BY_USER,
+			query = "SELECT t from transactions t WHERE t.user = :user")
 })
 public class Transaction implements Cloneable {
 	public static final String QUERY_ALL = "allTransactions";
+	public static final String QUERY_BY_USER = "transactionsByUser";
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@ManyToOne
-	private User owner;
+	private User user;
 	private String description;
 	private float value;
 	private String date;
@@ -63,11 +66,11 @@ public class Transaction implements Cloneable {
 	public void setImportant(boolean important) {
 		this.important = important;
 	}
-	public User getOwner() {
-		return owner;
+	public User getUser() {
+		return user;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

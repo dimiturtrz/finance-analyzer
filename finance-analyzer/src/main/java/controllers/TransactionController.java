@@ -15,8 +15,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.shiro.SecurityUtils;
+
 import connectors.ChallengeUpdater;
 import entities.Transaction;
+import helpers.AuthenticationHelper;
 
 @XmlRootElement
 @Path("/transactions")
@@ -26,10 +29,11 @@ public class TransactionController {
 	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Transaction> getTransactions() {
+		System.out.println( "User [" + SecurityUtils.getSubject().getPrincipal() + "] logged in successfully." );
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
 			final TypedQuery<Transaction> query =
-				em.createNamedQuery(Transaction.QUERY_ALL, Transaction.class);
+				em.createNamedQuery(Transaction.QUERY_BY_USER, Transaction.class);
 			return query.getResultList();
 		} finally {
 			em.close();
@@ -60,6 +64,7 @@ public class TransactionController {
 	public Transaction createTransaction(Transaction transaction) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
+			transaction.setUser(AuthenticationHelper.getCurrentUser());
 			em.getTransaction().begin();
 			em.persist(transaction);
 			(new ChallengeUpdater()).onCreate(transaction);
