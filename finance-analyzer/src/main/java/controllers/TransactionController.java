@@ -28,12 +28,13 @@ public class TransactionController {
 	@GET
 	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Transaction> getTransactions() {
-		System.out.println( "User [" + SecurityUtils.getSubject().getPrincipal() + "] logged in successfully." );
+	public List<Transaction> getTransactions(Transaction transaction) {
 		final EntityManager em = EntityManagerService.createEntityManager();
 		try {
+			System.out.println(SecurityUtils.getSubject().isAuthenticated() ? "logged1" : "not logged1");
 			final TypedQuery<Transaction> query =
 				em.createNamedQuery(Transaction.QUERY_BY_USER, Transaction.class);
+			query.setParameter("user", AuthenticationHelper.getCurrentUser());
 			return query.getResultList();
 		} finally {
 			em.close();

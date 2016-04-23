@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -19,7 +20,7 @@ import javax.persistence.OneToOne;
 	@NamedQuery(name=Challenge.QUERY_ALL,
 		query = "SELECT t from challenges t"),
 	@NamedQuery(name=Challenge.QUERY_BY_USER,
-		query = "SELECT t from transactions t WHERE t.user = :user")
+		query = "SELECT t from challenges t WHERE t.user = :user")
 })
 public class Challenge {
 	public static final String QUERY_ALL = "allChallenges";

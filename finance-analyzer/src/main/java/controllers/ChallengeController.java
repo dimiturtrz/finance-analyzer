@@ -33,6 +33,7 @@ public class ChallengeController {
 		try {
 			final TypedQuery<Challenge> query =
 				em.createNamedQuery(Challenge.QUERY_BY_USER, Challenge.class);
+			query.setParameter("user", AuthenticationHelper.getCurrentUser());
 			return query.getResultList();
 		} finally {
 			em.close();

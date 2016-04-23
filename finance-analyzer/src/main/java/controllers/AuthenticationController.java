@@ -20,14 +20,15 @@ import entities.User;
 public class AuthenticationController {
 	
 	final static DefaultPasswordService passwordService = new DefaultPasswordService();
+	public static Subject currentSubject;
 	
 	@POST
 	@Path("/authenticate")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void SignIn(User user){
-		Subject currentUser = SecurityUtils.getSubject();
+		currentSubject = SecurityUtils.getSubject();
 	    UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-	    currentUser.login(token);
+	    currentSubject.login(token);
 	}
 	
 	@POST

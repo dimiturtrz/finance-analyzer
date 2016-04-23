@@ -6,12 +6,13 @@ import javax.persistence.TypedQuery;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
+import controllers.AuthenticationController;
 import controllers.EntityManagerService;
 import entities.User;
 
 public class AuthenticationHelper {
 	public static User getCurrentUser(){
-		Subject subject = SecurityUtils.getSubject();
+		Subject subject = AuthenticationController.currentSubject;
 		String username = (String) subject.getPrincipal();
 		return getUserFromUsername(username);
 	}
