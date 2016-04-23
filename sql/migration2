@@ -1,0 +1,8 @@
+use FinanceAnalyzer;
+
+alter table transactions add user_id int(11) NOT NULL default 1;
+alter table transactions add foreign key (user_id) references users(id);
+
+alter table challenges drop user_id;
+alter table challenges add user_id int(11) NOT NULL default 1;
+alter table challenges add foreign key (user_id) references users(id);

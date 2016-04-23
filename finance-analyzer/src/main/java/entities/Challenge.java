@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -23,7 +24,8 @@ public class Challenge {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private int user_id;
+	@ManyToOne
+	private User owner;
 	private String declaration;
 	private String since;
 	private String deadline;
@@ -61,12 +63,12 @@ public class Challenge {
 		this.id = id;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	public String getDeclaration() {
