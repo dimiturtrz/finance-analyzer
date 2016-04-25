@@ -3,6 +3,8 @@ $(document).ready(function() {
 
     var LOGIN_REDIRECT = "http://localhost:8080/finance-analyzer/page.html#dashboard"
     
+    // Register below
+
     var modal_register = $("#modal-register");
     var register_submit = modal_register.find('button[type="submit"]');
     register_submit.on('click', function(e) {
@@ -45,13 +47,11 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    //var ENDPOINT = "http://localhost:8080/finance-analyzer/rest/users/authenticate"; // to be implemented
+    var wrong_credentials_warning = modal_login.find("p.wrong-credentials-warning");
+    wrong_credentials_warning.hide();
 
     function logInUser(user) {
-    	authenticateUser(user)
-        if(true) { // TODO if successfully authenticated
-            //window.location.replace(LOGIN_REDIRECT);
-        }
+    	authenticateUser(user);
     }
     
     function authenticateUser(user) {
@@ -59,13 +59,17 @@ $(document).ready(function() {
             method: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(user),
-            dataType: "json",
+            dataType: "text",
             
             success: function(){
             	window.location.replace(LOGIN_REDIRECT);
             },
         
-        	error: function(msg) { alert(msg.responseText); }
+        	error: function() {
+                modal_login.find(".form-group").addClass("has-error");
+                wrong_credentials_warning.show();
+                alert(msg.responseText);
+            }
         });
     }
 });
