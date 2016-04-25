@@ -44,8 +44,13 @@ public class AuthenticationController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signUp(User user) {
+	    UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
 		user.setPassword(passwordService.encryptPassword(user.getPassword()));
-		return (new UserController()).createUser(user);
+		User newUser = (new UserController()).createUser(user);
+		currentSubject = SecurityUtils.getSubject();
+	    currentSubject.login(token);
+	    return newUser;
+		
 	}
 	
 	@DELETE
