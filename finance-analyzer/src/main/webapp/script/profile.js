@@ -107,4 +107,19 @@ $(document).ready(function() {
             dataType: "json"
         });
     }
+
+    var LOGOUT_URL = "http://localhost:8080/finance-analyzer/rest/auth/logout";
+    var LOGOUT_REDIRECT = "http://localhost:8080/finance-analyzer/landing-page/index.html"
+
+    function logout() {
+        return $.ajax(LOGOUT_URL, {
+            method: "DELETE"
+        });
+    }
+
+    $("#logout-button").on('click', function() {
+        logout().then(function() {
+            window.location.replace(LOGOUT_REDIRECT);
+        });
+    });
 });

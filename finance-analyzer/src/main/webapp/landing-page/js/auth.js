@@ -68,7 +68,6 @@ $(document).ready(function() {
         	error: function() {
                 modal_login.find(".form-group").addClass("has-error");
                 wrong_credentials_warning.show();
-                alert(msg.responseText);
             }
         });
     }
