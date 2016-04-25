@@ -27,7 +27,7 @@
 	 
 	 <!-- Custom initializer -->
 	<listener>
-		<listener-class> FinanceServletContextListener </listener-class>
+		<listener-class>FinanceServletContextListener</listener-class>
    </listener>
 	 
 	<!-- Shiro setup -->

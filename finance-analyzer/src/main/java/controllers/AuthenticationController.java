@@ -2,6 +2,7 @@ package controllers;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,6 +15,7 @@ import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.subject.Subject;
 
 import entities.User;
+import helpers.AuthenticationHelper;
 
 @XmlRootElement
 @Path("/auth")
@@ -21,6 +23,12 @@ public class AuthenticationController {
 	
 	final static DefaultPasswordService passwordService = new DefaultPasswordService();
 	public static Subject currentSubject;
+	
+	@GET
+	@Path("/current-user")
+	public User getCurrUser(){
+		return AuthenticationHelper.getCurrentUser();
+	}
 	
 	@POST
 	@Path("/authenticate")
