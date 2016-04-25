@@ -7,6 +7,17 @@ $(document).ready(function() {
     var updateBtn = $("#update-btn");
     var cancelBtn = $("#cancel-btn");
 
+    var username = $(".topbar-user").find("span.hidden-xs");
+
+    var CURRENT_USER_URL = "http://localhost:8080/finance-analyzer/rest/auth/current-user";
+
+    function getCurrentUser() {
+        return $.ajax(CURRENT_USER_URL, {
+            method: "GET",
+            dataType: "json"
+        });
+    };
+
     (function() {
         displayShow();
     })();
@@ -19,18 +30,11 @@ $(document).ready(function() {
         initUserShowInfo();
     }
 
-    function getUser(id) {
-        return $.ajax(ENDPOINT + "/" + id, {
-            method: "GET",
-            dataType: "json"
-        });
-    }
-
     function initUserShowInfo() {
-        var id = 1; // TODO get it from URL params
-        getUser(id).then(function(user) {
+        getCurrentUser().then(function(user) {
             $("#username-value").text(user.username);
             $("#email-value").text(user.email);
+            username.text(user.username);
         });
     }
 
@@ -43,8 +47,7 @@ $(document).ready(function() {
     }
 
     function initUserEditInfo() {
-        var id = 1; // TODO get it from URL params
-        getUser(id).then(function(user) {
+        getCurrentUser().then(function(user) {
             $("#username-value").val(user.username);
             $("#email-value").val(user.email);
         });
@@ -99,12 +102,14 @@ $(document).ready(function() {
     });
 
     function updateUser(user) {
-        var id = 1; // TODO get it from URL params
-        return $.ajax(ENDPOINT + "/" + id, {
-            method: "PUT",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(user),
-            dataType: "json"
+        getCurrentUser().then(function(user) {
+            var id = user.id;
+            return $.ajax(ENDPOINT + "/" + id, {
+                method: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(user),
+                dataType: "json"
+            });
         });
     }
 
