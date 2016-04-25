@@ -7,6 +7,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.shiro.SecurityUtils;
@@ -33,10 +35,17 @@ public class AuthenticationController {
 	@POST
 	@Path("/authenticate")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void SignIn(User user){
+	public Response signIn(User user){
 		currentSubject = SecurityUtils.getSubject();
 	    UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-	    currentSubject.login(token);
+
+	    try {
+	    	currentSubject.login(token);
+	    } catch(Exception e) {
+	    	return Response.status(401).entity("Wrong credentials!").build();
+	    }
+	    
+	    return Response.status(200).entity("Save OK").build();
 	}
 	
 	@POST
@@ -55,8 +64,6 @@ public class AuthenticationController {
 	
 	@DELETE
 	@Path("/logout")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public void logout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
